@@ -56,3 +56,25 @@ function my_popular_posts_views($postID) {
   }
   
   add_action ( 'wp_head', 'my_counter_popular_posts' );
+  
+/*
+ * Add popular post function data to all post table
+ */
+
+ function my_add_views_column ($defaults) {
+        $defaults['post_views'] = 'View Count';
+        return $defaults;
+ }
+ 
+ add_filter('manage_posts_columns', 'my_add_views_column');
+ 
+ function my_display_views ($column_name) {
+    if ($column_name === 'post_views') {
+        echo (int) get_post_meta ( get_the_ID(), 'views', true);
+    }
+ }
+ 
+ add_action('manage_posts_custom_column', 'my_display_views', 5, 2);
+ 
+ 
+ 

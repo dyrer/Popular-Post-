@@ -3,9 +3,9 @@
  * Plugin Name: Popular Posts
  * Plugin URI: http://athanasiadis.me
  * Description: A simple plugin
- * Version: The plugin's version number. Example: 1.0.0
- * Author: Name of the plugin author
- * Author URI: http://URI_Of_The_Plugin_Author
+ * Version: 0.1
+ * Author: Athanasiadis Evagelos
+ * Author URI: http://athanasiadis.me
  * Text Domain: Optional. Plugin's text domain for localization. Example: mytextdomain
  * Domain Path: Optional. Plugin's relative directory path to .mo files. Example: /locale/
  * Network: Optional. Whether the plugin can only be activated network wide. Example: true
@@ -16,7 +16,19 @@
   * Post Popoularity Counter
   */
   
-  
+function my_popular_posts_views($postID) {
+    $total_key = 'views';
+    // Get current 'views' field
+    $total = get_posts_meta( $postID, $total_key, true );
+    // If current 'views' field is empty, set it to zero
+    if ( $total == '') {
+        delete_post_meta ($postID, $total_key);
+        add_post_meta ( $postID, $total_key, '0');
+    }
+    // if current 'views' field has a value, add 1 to that value
+    
+    
+    }
   
   
   /**

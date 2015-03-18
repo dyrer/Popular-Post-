@@ -20,7 +20,7 @@ function my_popular_posts_views($postID) {
     $total_key = 'views';
     
     // Get current 'views' field
-    $total = get_posts_meta( $postID, $total_key, true );
+    $total = get_post_meta( $postID, $total_key, true );
     
     // If current 'views' field is empty, set it to zero
     
@@ -51,7 +51,7 @@ function my_popular_posts_views($postID) {
             $post_id = $post->ID;
         }
         // Run the post Popularity Counter on post
-     //   my_popular_posts_views($post_id);
+        my_popular_posts_views($post_id);
     }
   }
   

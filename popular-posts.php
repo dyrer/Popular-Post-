@@ -13,20 +13,25 @@
  */
 
  /**
-  * Post Popoularity Counter
+  * Post Popularity Counter
   */
   
 function my_popular_posts_views($postID) {
     $total_key = 'views';
+    
     // Get current 'views' field
     $total = get_posts_meta( $postID, $total_key, true );
+    
     // If current 'views' field is empty, set it to zero
+    
     if ( $total == '') {
         delete_post_meta ($postID, $total_key);
         add_post_meta ( $postID, $total_key, '0');
-    }
+    } else {
     // if current 'views' field has a value, add 1 to that value
-    
+    $total++;
+    update_post_meta ( $postID, $total_key, $total);
+    }
     
     }
   
@@ -36,18 +41,18 @@ function my_popular_posts_views($postID) {
    */
   
   function my_counter_popular_posts ($post_id) {
+    
     // Check that this is a single post and that the user is a visitor
-    if ($is_single()) return;
-    if ($is_user_logged_in()) {
+    if ( !is_single()) return;
+    if ( !is_user_logged_in()) {
         // Get the post ID
-        if ( empty ( $posts)) {
+        if ( empty ( $post_id)) {
             global $post;
             $post_id = $post->ID;
         }
         // Run the post Popularity Counter on post
-        my_popular_posts_views($post_id);
+     //   my_popular_posts_views($post_id);
     }
   }
   
   add_action ( 'wp_head', 'my_counter_popular_posts' );
- 

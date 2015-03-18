@@ -2,7 +2,7 @@
 /**
  * Plugin Name: Popular Posts
  * Plugin URI: http://athanasiadis.me
- * Description: A simple plugiin
+ * Description: A simple plugin
  * Version: The plugin's version number. Example: 1.0.0
  * Author: Name of the plugin author
  * Author URI: http://URI_Of_The_Plugin_Author
@@ -28,7 +28,14 @@
     if ($is_single()) return;
     if ($is_user_logged_in()) {
         // Get the post ID
+        if ( empty ( $posts)) {
+            global $post;
+            $post_id = $post->ID;
+        }
         // Run the post Popularity Counter on post
+        my_popular_posts_views($post_id);
     }
   }
+  
+  add_action ( 'wp_head', 'my_counter_popular_posts' );
  

@@ -75,6 +75,3 @@ function my_popular_posts_views($postID) {
  }
  
  add_action('manage_posts_custom_column', 'my_display_views', 5, 2);
- 
- 
- 

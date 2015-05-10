@@ -79,14 +79,14 @@ function my_popular_posts_views($postID) {
 /**
  * Adds Popular Posts widget.
  */
-class Popular_Posts extends WP_Widget {
+class popular_posts extends WP_Widget {
 
     /**
      * Register widget with WordPress.
      */
     function __construct() {
         parent::__construct(
-            'Popular_Posts', // Base ID
+            'popular_posts', // Base ID
             __( 'Popular Posts', 'text_domain' ), // Name
             array( 'description' => __( 'Displayes the 5 most Popular Posts', 'text_domain' ), ) // Args
         );
@@ -105,7 +105,39 @@ class Popular_Posts extends WP_Widget {
         if ( ! empty( $instance['title'] ) ) {
             echo $args['before_title'] . apply_filters( 'widget_title', $instance['title'] ). $args['after_title'];
         }
-        echo __( 'Hello, World!', 'text_domain' );
+        //Query goes here
+        $query_args = array(
+            'post_type' => 'post',
+            'posts_per_page' => 5,
+            'meta_key' => 'views',
+            'orderby' => 'meta_value_num',
+            'order' => 'DESC',
+            'ignore_sticky_posts' => TRUE
+        );
+        // The Query
+        $the_query = new WP_Query( $query_args );
+
+// The Loop
+        if ( $the_query->have_posts() ) {
+            echo '<ul>';
+            while ( $the_query->have_posts() ) {
+                $the_query->the_post();
+                echo '<li>';
+                echo '<a href="' . get_the_permalink() . '" rel="bookmark">';
+                echo get_the_title();
+                echo '(' . get_post_meta( get_the_ID(), 'views',true).')';
+                echo '</a>';
+                echo '</li>';
+            }
+            echo '</ul>';
+        } else {
+            // no posts found
+            echo 'No posts found';
+        }
+        /* Restore original Post Data */
+        wp_reset_postdata();
+
+
         echo $args['after_widget'];
     }
 
